@@ -1,0 +1,116 @@
+// global.scss - Estilos globales de la aplicación
+@import './fonts';
+@import './variables';
+
+// Aplicar fuente global
+* {
+  font-family: $font-primary;
+}
+
+body {
+  font-family: $font-body;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+// Títulos con peso Bold
+h1, h2, h3, h4, h5, h6,
+.title {
+  font-family: $font-heading;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+// Subtítulos
+.subtitle {
+  font-family: $font-body;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+// Configuración Buefy con colores institucionales
+.button.is-primary {
+  background-color: $primary;
+  
+  &:hover {
+    background-color: $primary-light;
+  }
+  
+  &:active, &:focus {
+    background-color: darken($primary, 5%);
+  }
+}
+
+.has-text-primary {
+  color: $primary !important;
+}
+
+.has-background-primary {
+  background-color: $primary !important;
+}
+
+// Links
+a {
+  color: $primary;
+  
+  &:hover {
+    color: $primary-light;
+  }
+}
+
+// Inputs focus
+.input:focus,
+.textarea:focus,
+.select select:focus {
+  border-color: $primary;
+}
+
+// Tabs activos
+.tabs.is-boxed li.is-active a {
+  border-bottom-color: $primary;
+  color: $primary;
+}
+
+// Checkbox y radio
+.b-checkbox.checkbox input[type=checkbox]:checked + .check {
+  background-color: $primary;
+  border-color: $primary;
+}
+
+.b-radio.radio input[type=radio]:checked + .check {
+  border-color: $primary;
+  
+  &::before {
+    background-color: $primary;
+  }
+}
+
+// Tags
+.tag.is-primary {
+  background-color: $primary;
+}
+
+// Navbar
+.navbar-item.is-active {
+  color: $primary !important;
+}
+
+// Progress bars
+.progress::-webkit-progress-value {
+  background-color: $primary;
+}
+
+.progress::-moz-progress-bar {
+  background-color: $primary;
+}
+
+// Pagination
+.pagination-link.is-current {
+  background-color: $primary;
+  border-color: $primary;
+}
+
+.pagination-link:hover {
+  border-color: $primary;
+  color: $primary;
+}

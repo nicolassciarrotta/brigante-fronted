@@ -1,0 +1,33 @@
+// _variables.scss
+
+// Original colors
+$blue-aeronautical: #40449B;
+$gray-metallic: #6C757D;
+$white-cloud: #F8F9FA;
+$yellow-signage: #E9C46A;
+$red-warning: #EA4E53;
+$green-light: #349385;
+$green-dark: #30887b;
+
+// Institutional colors
+$primary: #2760a3;
+$primary-light: #4876b6;
+$primary-lighter: #6395cc;
+$primary-lightest: #84bbe5;
+$primary-dark:rgb(32, 78, 131)3;
+$background-light: #f6f8f8;
+$background-dark: #101d22;
+$neutral-text: #617f89;
+$neutral-dark: #111618;
+$neutral-light: #f0f3f4;
+$border-color: #e5e7eb;
+$border-color-dark: #374151;
+
+// Text colors
+$text-light: #f0f3f4;
+$text-dark: #111618;
+
+// Fuente institucional: Frutiger LT STD
+// Fallback a fuentes similares disponibles
+$font-family-primary: 'Frutiger LT Std', 'Helvetica Neue', 'Arial', sans-serif;
+
