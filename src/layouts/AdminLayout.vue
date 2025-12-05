@@ -34,6 +34,11 @@ export default {
           icon: 'home',
           path: '/admin/properties'
         },
+        {
+          label: 'Cotizaciones',
+          icon: 'user-shield',
+          path: '/admin/quotes'
+        },
       ]
     }
   },

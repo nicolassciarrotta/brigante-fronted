@@ -104,32 +104,61 @@
       </div>
     </div>
 
-    <b-modal v-model="isDetailModalActive" :width="800" scroll="keep">
+    <b-modal
+      v-model="isDetailModalActive"
+      :width="1000"
+      scroll="keep"
+      class="insurance-modal"
+      :full-screen="isMobile"
+      :can-cancel="['escape', 'x']"
+      @close="closeModal"
+    >
       <div class="modal-card" v-if="selectedInsurance">
         <header class="modal-card-head">
           <p class="modal-card-title">{{ selectedInsurance.name }}</p>
           <button
             type="button"
             class="delete"
-            @click="isDetailModalActive = false"
+            @click="closeModal"
           />
         </header>
         <section class="modal-card-body">
           <div class="content">
             <div class="has-text-centered mb-4">
-              <figure class="image is-16by9">
+              <figure class="image modal-insurance-image">
                 <img
                   :src="selectedInsurance.image"
                   :alt="selectedInsurance.name"
-                  style="object-fit: cover"
+                  style="object-fit: cover; border-radius: 0.5rem"
                   loading="lazy"
                 />
               </figure>
             </div>
-            <div v-html="selectedInsurance.description"></div>
+
+            <div
+              v-if="!selectedInsurance.formComponent"
+              v-html="selectedInsurance.description"
+            ></div>
+
+            <div v-if="selectedInsurance.formComponent">
+              <div class="mb-4" v-html="selectedInsurance.description"></div>
+
+              <div class="notification is-light">
+                <h4 class="title is-5">📋 Solicitar Cotización</h4>
+                <p class="mb-4">
+                  Complete el siguiente formulario y nos pondremos en contacto
+                  con usted a la brevedad con la mejor cotización.
+                </p>
+
+                <component
+                  :is="selectedInsurance.formComponent"
+                  :insurance-type="selectedInsurance.name"
+                />
+              </div>
+            </div>
           </div>
         </section>
-        <footer class="modal-card-foot">
+        <footer class="modal-card-foot" v-if="!selectedInsurance.formComponent">
           <b-button type="is-primary" expanded @click="contactUs">
             Consultar
           </b-button>
@@ -141,11 +170,14 @@
 
 <script>
 import TopNavbar from "@/components/TopNavbar.vue";
+import VehicleInsuranceForm from "@/components/VehicleInsuranceForm.vue";
+import store from "@/store";
 
 export default {
   name: "InsuranceCompanies",
   components: {
     TopNavbar,
+    VehicleInsuranceForm,
   },
   data() {
     return {
@@ -226,29 +258,25 @@ export default {
           name: "Automotores",
           image:
             "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=800",
-          description: `
-      <p class="mb-3">Disponemos de múltiples coberturas de acuerdo a sus necesidades, para que pueda conducir su vehículo con toda la tranquilidad y seguridad, sabiendo que cuenta con la solvencia y el respaldo de Compañías Líderes en el Mercado Asegurador.</p>
-      <p><strong>También disponemos de coberturas de Robo e Incendio para Autos Clásicos</strong> (Antigüedad mayor a 30 años)</p>
-    `,
+          formComponent: "VehicleInsuranceForm",
+          description: "",
         },
         {
           id: 2,
+          name: "Motovehículos",
+          image:
+            "https://images.unsplash.com/photo-1558981359-219d6364c9c8?w=800",
+          formComponent: "VehicleInsuranceForm",
+          description: "",
+        },
+        {
+          id: 3,
           name: "Flota de Vehículos",
           image:
             "https://images.unsplash.com/photo-1506521781263-d8422e82f27a?w=800",
           description: `
-      <p>Contamos con un tratamiento especial para las flotas de vehículos, donde buscamos en todas nuestras compañías aliadas, el mejor producto con el mejor costo asociado.</p>
-    `,
-        },
-        {
-          id: 3,
-          name: "Motovehículos",
-          image:
-            "https://images.unsplash.com/photo-1558981359-219d6364c9c8?w=800",
-          description: `
-      <p class="mb-3">La Ley Nacional de Tránsito Nro. 24.449, establece que todo motovehículo debe contar con un Seguro de Responsabilidad Civil que cubra eventuales daños causados a terceros, de acuerdo a las condiciones que fije la autoridad en materia aseguradora. También podés contratar cómo adicionales las coberturas de Robo e Incendio.</p>
-      <p><strong>Consultanos por cobertura de Responsabilidad Civil para Motovehículos de Reparto y Mensajería</strong></p>
-    `,
+            <p>Contamos con un tratamiento especial para las flotas de vehículos, donde buscamos en todas nuestras compañías aliadas, el mejor producto con el mejor costo asociado.</p>
+          `,
         },
         {
           id: 4,
@@ -273,7 +301,8 @@ export default {
         {
           id: 6,
           name: "Incendio",
-          image: "https://images.unsplash.com/photo-1516567832553-66232148f74c?w=800&q=80&auto=format&fit=crop",
+          image:
+            "https://images.unsplash.com/photo-1516567832553-66232148f74c?w=800&q=80&auto=format&fit=crop",
           description: `
       <p class="mb-3">Protección específica contra daños por incendio para tu hogar o comercio. Esta cobertura te brinda la tranquilidad de saber que tu patrimonio está protegido ante uno de los riesgos más devastadores.</p>
       <p><strong>Cobertura integral que incluye daños por incendio, rayo, explosión y otros riesgos relacionados.</strong></p>
@@ -347,7 +376,8 @@ export default {
         {
           id: 14,
           name: "Seguro Técnico",
-            image: "https://images.unsplash.com/photo-1716395301237-ce4059a83c2c?w=800&q=80&auto=format&fit=crop",
+          image:
+            "https://images.unsplash.com/photo-1716395301237-ce4059a83c2c?w=800&q=80&auto=format&fit=crop",
           description: `
       <p>Protegé tus equipos electrónicos, maquinarias, equipos médicos o trabajos de construcción y montaje. Este seguro posee coberturas técnicas a tu medida, permitiéndote cubrir las pérdidas y/o daños materiales externos producidos en forma accidental e imprevista a tus equipos electrónicos.</p>
     `,
@@ -374,6 +404,9 @@ export default {
     };
   },
   computed: {
+    isMobile() {
+      return window.innerWidth <= 768;
+    },
     filteredInsurances() {
       if (!this.searchQuery) {
         return this.insurances;
@@ -385,6 +418,47 @@ export default {
     },
   },
   methods: {
+    openInsuranceByName(insuranceName) {
+      const insurance = this.insurances.find(
+        ins => ins.name.toLowerCase() === insuranceName.toLowerCase()
+      );
+      if (insurance) {
+        this.showInsuranceDetail(insurance);
+      }
+    },
+    handleUrlParameters() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const modal = urlParams.get('showInsurance');
+      
+      if (modal) {
+        const modalMap = {
+          'car': 'Automotores',
+          'motorcycle': 'Motovehículos',
+        };
+        
+        const insuranceName = modalMap[modal.toLowerCase()];
+        if (insuranceName) {
+          this.$nextTick(() => {
+            this.openInsuranceByName(insuranceName);
+          });
+        }
+      }
+    },
+    getModalParamFromName(insuranceName) {
+      const nameMap = {
+        'Automotores': 'car',
+        'Motovehículos': 'motorcycle',
+      };
+
+      return nameMap[insuranceName] || insuranceName.toLowerCase().replace(/\s+/g, '-');
+    },
+    closeModal() {
+      this.isDetailModalActive = false;
+      this.selectedInsurance = null;
+
+      const newUrl = window.location.pathname;
+      window.history.replaceState({}, '', newUrl);
+    },
     resetFilters() {
       this.searchQuery = "";
     },
@@ -407,6 +481,7 @@ export default {
     },
   },
   mounted() {
+    this.handleUrlParameters();
     this.autoplayInterval = setInterval(() => {
       if (this.$refs.providerCarousel) {
         this.$refs.providerCarousel.next();
@@ -416,12 +491,37 @@ export default {
   beforeDestroy() {
     clearInterval(this.autoplayInterval);
   },
+  watch: {
+    '$route'() {
+      this.handleUrlParameters();
+    }
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 @import "@/assets/styles/_variables.scss";
+.insurance-modal {
+  .modal-content {
+    width: 80vw !important;
+    max-width: 90vw !important;
+  }
+  .modal-card {
+    width: 100% !important;
+  }
+  .modal-insurance-image {
+    max-width: 350px;
+    height: 200px;
+    margin: 0 auto;
 
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 0.5rem;
+    }
+  }
+}
 .insurance-companies {
   min-height: 100vh;
   background-color: $background-light;
@@ -495,7 +595,7 @@ export default {
 }
 
 .carousel-list .carousel-slides .carousel-slide {
-    padding: 0px 30px !important;
+  padding: 0px 30px !important;
 }
 .modal-card {
   border-radius: 0.75rem;

@@ -19,6 +19,9 @@ import PropertyManagement from '@/views/PropertyManagement.vue'
 import InsuranceManagement from '@/views/InsuranceManagement.vue'
 import PrivacyPolicy from '@/views/PrivacyPolicy.vue'
 import MaintenanceView from '@/views/MaintenanceView.vue'
+import QuotesManagement from '@/views/QuotesManagement.vue'
+
+import NotFoundView from '@/views/NotFoundView.vue';
 
 Vue.use(VueRouter)
 
@@ -33,6 +36,7 @@ const publicRoutes = [
   'IndexView',
   'privacyPolicy',
   'maintenance',
+  'notFound'
 ]
 
 const routes = [
@@ -58,8 +62,10 @@ const routes = [
       {path: 'dashboard', name: 'adminDashboard', component: AdminDashboard},
       {path: 'properties', name: 'propertyManagement', component: PropertyManagement},
       {path: 'insurance', name: 'insuranceManagement', component: InsuranceManagement},
+      {path: 'quotes', name: 'quotesManagement', component: QuotesManagement},
     ]
   },
+  { path: '*', name: 'notFound', component: NotFoundView }
 ]
 
 const router = new VueRouter({

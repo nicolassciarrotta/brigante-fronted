@@ -32,6 +32,17 @@ export default {
 </script>
 
 <style lang="scss">
+.tag {
+  &.is-primary {
+    background-color: $primary !important;
+    color: $white-cloud !important;
+  }
+
+  &.is-info {
+    background-color: $primary-lightest !important;
+    color: $white-cloud !important;
+  }
+}
 .breadcrumb {
   a {
     color: $primary !important;
