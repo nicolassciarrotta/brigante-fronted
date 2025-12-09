@@ -26,7 +26,7 @@ export default {
     openWhatsApp() {
       const encodedMessage = encodeURIComponent(this.message);
       const whatsappUrl = `https://wa.me/${this.phoneNumber}?text=${encodedMessage}`;
-      window.open(whatsappUrl, '_blank');
+      window.open(whatsappUrl);
     }
   }
 }

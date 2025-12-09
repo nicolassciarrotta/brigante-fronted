@@ -158,14 +158,14 @@
           </div>
         </div>
 
-        <div class="has-text-centered mb-6" v-if="false">
+        <div class="has-text-centered mb-6" v-if="showTeamSection">
           <h3 class="title is-3">Nuestro Equipo</h3>
           <p class="subtitle is-6 has-text-grey">
             Conoce a los profesionales que hacen posible nuestro servicio
           </p>
         </div>
 
-        <div class="columns is-multiline" v-if="false">
+        <div class="columns is-multiline" v-if="showTeamSection">
           <div
             v-for="member in teamMembers"
             :key="member.id"
@@ -184,25 +184,13 @@
               <div class="member-info has-text-centered">
                 <p class="title is-5">{{ member.name }}</p>
                 <p class="subtitle is-6 has-text-primary">
-                  {{ member.position }}
+                  {{ member.position }} 
+                  <br v-if="member.secondPosition">
+                  <span v-if="member.secondPosition">{{ member.secondPosition }}</span>
                 </p>
-                <div class="social-links mt-3">
-                  <a
-                    v-if="member.linkedin"
-                    :href="member.linkedin"
-                    target="_blank"
-                    class="mx-2"
-                  >
-                    <b-icon icon="linkedin" pack="fab" size="is-small" />
-                  </a>
-                  <a
-                    v-if="member.email"
-                    :href="`mailto:${member.email}`"
-                    class="mx-2"
-                  >
-                    <b-icon icon="envelope" size="is-small" />
-                  </a>
-                </div>
+                <p class="subtitle is-6 has-text-primary">
+                  {{ member.extra }}
+                </p>
               </div>
             </div>
           </div>
@@ -350,7 +338,7 @@ export default {
         message: ''
       },
       isSubmitting: false,
-      showTeamSection: false,
+      showTeamSection: true,
       services: [
         {
           id: 1,
@@ -390,34 +378,30 @@ export default {
         {
           id: 1,
           name: "Emmanuel Brigante",
-          position: "CEO & Fundador",
-          image: "emmanuel_brigante.png",
-          linkedin: "#",
-          email: "maria@realtyco.com",
+          position: "Asesor de Seguros",
+          secondPosition: 'Martillero y Corredor Público',
+          image: "brigante.jpeg",
         },
         {
           id: 2,
-          name: "Carlos Rodríguez",
-          position: "Director de Operaciones",
-          image: "emmanuel_brigante.png",
-          linkedin: "#",
-          email: "carlos@realtyco.com",
+          name: "Fátima Dorado",
+          position: "Asesora de Seguros",
+          extra: 'Cobranza - Siniestros',
+          image: "dorado.jpeg",
         },
         {
           id: 3,
-          name: "Ana Martínez",
-          position: "Gerente de Seguros",
-          image: "emmanuel_brigante.png",
-          linkedin: "#",
-          email: "ana@realtyco.com",
+          name: "Maximiliano Di Nisio",
+          position: "Asesor de Seguros",
+          extra: 'CABA',
+          image: "dinisio.jpeg",
         },
         {
           id: 4,
-          name: "Jorge López",
-          position: "Asesor Inmobiliario",
-          image: "emmanuel_brigante.png",
-          linkedin: "#",
-          email: "jorge@realtyco.com",
+          name: "María José Viñales",
+          position: "Asesora de Seguros",
+          extra: 'Alberti, Bs. As.',
+          image: "vinales.jpeg",
         },
       ],
     };
@@ -493,7 +477,7 @@ export default {
         "Hola, me gustaría recibir asesoramiento sobre sus servicios."
       );
       const whatsappURL = `https://wa.me/${phoneNumber}?text=${message}`;
-      window.open(whatsappURL, "_blank");
+      window.open(whatsappURL);
     },
     async sendContactMessage() {
       if (!this.validateForm()) {
@@ -551,8 +535,10 @@ export default {
 @import "@/assets/styles/_fonts.scss";
 
 .title.is-1-desktop.is-2-mobile.has-text-white {
-  margin-top: 25px;
-  font-size: 1.2rem !important;
+  @media (max-width: 768px) {
+    margin-top: 25px;
+    font-size: 1.2rem !important;
+  }
 }
 .landing-page {
   min-height: 100vh;

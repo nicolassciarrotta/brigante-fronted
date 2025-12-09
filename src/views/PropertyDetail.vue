@@ -327,7 +327,7 @@ export default {
         `Precio: ${this.property.currency} ${this.formatPrice(this.property.price)}\n` +
         `Link: ${window.location.href}`
       );
-      window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
+      window.open(`https://wa.me/${phone}?text=${message}`);
     },
     async fetchPropertyData() {
       try {

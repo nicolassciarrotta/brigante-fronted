@@ -1,9 +1,18 @@
 <template>
-  <aside class="menu-sidebar" :class="{ 'is-collapsed': collapsed }">
+  <aside class="menu-sidebar" :class="{ 'is-collapsed': collapsed, 'is-mobile-open': isMobileOpen }">
     <div class="sidebar-header">
+      <div class="sidebar-header-content">
         <a class="navbar-item" @click="handleNavigation('/home')">
-            <img src="@/assets/images/logo-brigante.png" alt="Estudio Brigante" class="navbar-logo">
+          <img src="@/assets/images/logo-brigante.png" alt="Estudio Brigante" class="navbar-logo">
         </a>
+        <b-button
+          @click="$emit('close')"
+          type="is-light"
+          icon-left="close"
+          size="is-small"
+          class="close-btn is-hidden-desktop"
+        />
+      </div>
     </div>
 
     <div class="sidebar-content">
@@ -56,16 +65,25 @@ export default {
     collapsed: {
       type: Boolean,
       default: false
+    },
+    isMobileOpen: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
     navigate(path) {
       if (this.$route.path !== path) {
         this.$router.push(path)
+        // Emitir close para cerrar sidebar en mobile
+        this.$emit('close')
       }
     },
     isActive(path) {
       return this.$route.path === path || this.$route.path.startsWith(path + '/')
+    },
+    handleNavigation(path) {
+      this.$router.push(path)
     }
   }
 }
@@ -81,7 +99,19 @@ export default {
   box-shadow: 8px 3px 26px -1px rgba(0,0,0,0.33);
   display: flex;
   flex-direction: column;
-  transition: width 0.3s ease;
+  transition: width 0.3s ease, transform 0.3s ease;
+  
+  @media (max-width: 1023px) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    transform: translateX(-100%);
+    
+    &.is-mobile-open {
+      transform: translateX(0);
+    }
+  }
   
   &.is-collapsed {
     width: 80px;
@@ -94,6 +124,28 @@ export default {
   .sidebar-header {
     padding: 1.5rem 1rem;
     border-bottom: 1px solid $neutral-light;
+    
+    .sidebar-header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .navbar-item {
+      padding: 0;
+    }
+    
+    .navbar-logo {
+      height: 40px;
+      
+      @media (max-width: 768px) {
+        height: 32px;
+      }
+    }
+    
+    .close-btn {
+      margin-left: auto;
+    }
     
     .title {
       margin-bottom: 0.25rem;

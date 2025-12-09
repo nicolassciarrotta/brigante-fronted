@@ -273,6 +273,28 @@
           </div>
 
           <div class="mb-5">
+            <h2 class="subtitle is-5 mb-3">Datos importantes</h2>
+            <div class="columns">
+              <div class="column is-3">
+                <b-field label="Nomenclatura Catastral">
+                  <b-input
+                    v-model="form.cadastral_nomenclature"
+                    type="text"
+                  />
+                </b-field>
+              </div>
+              <div class="column is-3">
+                <b-field label="Número de Partida">
+                  <b-input
+                    v-model="form.departure_number"
+                    type="text"
+                  />
+                </b-field>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-5">
             <h2 class="subtitle is-5 mb-3">Características Especiales</h2>
             <div class="columns">
               <div class="column">
@@ -602,6 +624,8 @@ export default {
         furnished: false,
         status: "available",
         featured: false,
+        cadastral_nomenclature: "",
+        departure_number: "",
       };
     },
     openAddModal() {
@@ -694,7 +718,6 @@ export default {
         this.isSaving = true;
 
         if (this.isEditMode) {
-          // Para editar solo enviamos los datos sin imágenes
           const propertyData = {
             ...this.form,
             amenities: JSON.stringify(this.selectedAmenities),
@@ -707,10 +730,8 @@ export default {
             type: "is-success",
           });
         } else {
-          // Crear FormData con todos los datos
           const formData = new FormData();
 
-          // Agregar campos de texto
           formData.append('title', this.form.title);
           formData.append('description', this.form.description);
           formData.append('type', this.form.type);
@@ -726,12 +747,13 @@ export default {
           formData.append('total_area', this.form.total_area);
           formData.append('built_area', this.form.built_area);
           formData.append('floors', this.form.floors);
-          
+          formData.append('cadastral_nomenclature', this.form.cadastral_nomenclature);
+          formData.append('departure_number', this.form.departure_number);
+
           if (this.form.year_built) {
             formData.append('year_built', this.form.year_built);
           }
 
-          // Agregar booleanos (convertir a 1 o 0)
           formData.append('has_pool', this.form.has_pool ? 1 : 0);
           formData.append('has_garden', this.form.has_garden ? 1 : 0);
           formData.append('has_garage', this.form.has_garage ? 1 : 0);
@@ -740,21 +762,17 @@ export default {
           formData.append('featured', this.form.featured ? 1 : 0);
           formData.append('status', this.form.status);
 
-          // Agregar amenities
           formData.append('amenities', JSON.stringify(this.selectedAmenities));
 
-          // Agregar imágenes
           if (this.imageFiles.length > 0) {
             this.imageFiles.forEach((file, index) => {
               formData.append(`images[]`, file);
-              // Marcar la primera imagen como principal
               if (index === 0) {
                 formData.append('main_image_index', 0);
               }
             });
           }
 
-          // Enviar todo junto
           await this.$store.dispatch("Properties/createPropertyWithImages", formData);
 
           this.$buefy.toast.open({

@@ -454,7 +454,7 @@ export default {
         `⏰ *disponibilidad:* ${data.availability}\n\n` +
         `¿Podrían contactarme para brindarme una cotización?`
       );
-      window.open(`https://wa.me/${phone}?text=${message}`, "_blank");
+      window.open(`https://wa.me/${phone}?text=${message}`);
     },
     
     resetForm() {

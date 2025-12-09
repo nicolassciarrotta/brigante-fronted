@@ -95,7 +95,7 @@ export default {
         `¡Gracias por confiar en nosotros! 🤝`
       );
       
-      window.open(`https://wa.me/${formattedPhone}?text=${message}`, "_blank");
+      window.open(`https://wa.me/${formattedPhone}?text=${message}`);
     },
 
     sendEmail() {

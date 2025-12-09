@@ -471,7 +471,7 @@ export default {
       const message = encodeURIComponent(
         `Hola, estoy interesado en el seguro de ${this.selectedInsurance.name}. ¿Podrían brindarme más información?`
       );
-      window.open(`https://wa.me/${phone}?text=${message}`, "_blank");
+      window.open(`https://wa.me/${phone}?text=${message}`);
     },
     showLogin() {
       this.$router.push("/login");
