@@ -149,39 +149,6 @@
           </b-field>
         </div>
 
-        <div class="column is-12">
-          <b-field 
-            label="Verificación de Seguridad *"
-            :type="errors.captcha ? 'is-danger' : ''"
-            :message="errors.captcha"
-          >
-            <div class="captcha-container">
-              <div class="captcha-question">
-                <span class="captcha-text">
-                  {{ captcha.num1 }} {{ captcha.operator }} {{ captcha.num2 }} = ?
-                </span>
-                <b-button 
-                  type="is-light" 
-                  size="is-small" 
-                  @click="generateCaptcha"
-                  icon-left="refresh"
-                  title="Generar nueva pregunta"
-                >
-                  Cambiar
-                </b-button>
-              </div>
-              <b-input 
-                v-model="form.captcha"
-                type="number"
-                placeholder="Ingrese el resultado"
-                :class="{ 'is-danger': errors.captcha }"
-                @blur="validateField('captcha')"
-                style="margin-top: 0.5rem;"
-              />
-            </div>
-          </b-field>
-        </div>
-
         <!-- Botón de envío -->
         <div class="column is-12">
           <b-button 
@@ -219,7 +186,6 @@ export default {
         email: '',
         phone: '',
         availability: '',
-        captcha: ''
       },
       errors: {
         brand: '',
@@ -230,7 +196,6 @@ export default {
         email: '',
         phone: '',
         availability: '',
-        captcha: ''
       },
       captcha: {
         num1: 0,
@@ -312,8 +277,7 @@ export default {
         operator,
         correctAnswer
       };
-      
-      // Limpiar input y error cuando se genera nuevo captcha
+
       this.form.captcha = '';
       this.errors.captcha = '';
     },
@@ -377,14 +341,6 @@ export default {
             this.errors.availability = 'La disponibilidad horaria es requerida';
           }
           break;
-
-        case 'captcha':
-          if (!this.form.captcha.toString().trim()) {
-            this.errors.captcha = 'La verificación de seguridad es requerida';
-          } else if (parseInt(this.form.captcha) !== this.captcha.correctAnswer) {
-            this.errors.captcha = 'El resultado es incorrecto. Intente nuevamente.';
-          }
-          break;
       }
     },
     validateForm() {
@@ -412,7 +368,6 @@ export default {
           ...this.form,
           secureType: this.insuranceType
         };
-        delete formData.captcha;
 
         await this.storeQuotes(formData);
         this.sendWhatsAppMessage(formData);
@@ -467,7 +422,6 @@ export default {
         email: '',
         phone: '',
         availability: '',
-        captcha: ''
       };
       this.errors = {
         brand: '',
@@ -478,21 +432,17 @@ export default {
         email: '',
         phone: '',
         availability: '',
-        captcha: ''
       };
     },
     async storeQuotes(values) {
       try {
-        const response = await this.$store.dispatch("Quote/storeQuotes", values);
+        const response = await this.$store.dispatch("Quotes/storeQuotes", values);
         return response;
       } catch (err) {
         console.error("Error storing quotes:", err);
         throw err;
       }
     },
-  },
-  mounted() {
-    this.generateCaptcha();
   },
 };
 </script>
