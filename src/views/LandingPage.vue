@@ -165,7 +165,7 @@
           </p>
         </div>
 
-        <div class="columns is-multiline" v-if="showTeamSection">
+        <div class="columns is-multiline team-members" v-if="showTeamSection">
           <div
             v-for="member in teamMembers"
             :key="member.id"
@@ -431,6 +431,13 @@ export default {
           extra: "San Nicolás, Bs. As.",
           image: "gomez.jpg",
         },
+        {
+          id: 9,
+          name: "Ana Camila Oliva",
+          position: "Asesora de Seguros",
+          extra: "Chivilcoy, Bs. As.",
+          image: "oliva.png",
+        }
       ],
     };
   },
@@ -561,6 +568,10 @@ export default {
 <style lang="scss" scoped>
 @import "@/assets/styles/_variables.scss";
 @import "@/assets/styles/_fonts.scss";
+
+.team-members{
+  justify-content: center !important;
+}
 
 .title.is-1-desktop.is-2-mobile.has-text-white {
   @media (max-width: 768px) {
