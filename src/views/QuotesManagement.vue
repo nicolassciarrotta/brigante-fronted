@@ -528,7 +528,7 @@
                       </div>
                       <div class="detail-row" v-if="quote.brand">
                         <b-icon icon="car" size="is-small" />
-                        <span>{{ quote.brand }} {{ quote.model }} ({{ quote.year }})</span>
+                        <span>{{ quote.brand }} {{ quote.model }} ({{ quote.year }}) {{ quote.hasGNC ? 'con GNC' : '' }}</span>
                       </div>
                       <div class="detail-row" v-if="quote.availability">
                         <b-icon icon="clock" size="is-small" />

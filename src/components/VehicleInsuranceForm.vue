@@ -75,6 +75,14 @@
           </b-field>
         </div>
 
+        <div class="column is-6" v-if="isCar">
+          <b-field>
+            <b-checkbox v-model="form.hasGNC">
+              Vehículo con GNC
+            </b-checkbox>
+          </b-field>
+        </div>
+
         <!-- Nombre y Apellido -->
         <div class="column is-12">
           <b-field 
@@ -186,6 +194,7 @@ export default {
         email: '',
         phone: '',
         availability: '',
+        hasGNC: false,
       },
       errors: {
         brand: '',
@@ -220,6 +229,9 @@ export default {
     };
   },
   computed: {
+    isCar() {
+      return this.insuranceType.toLowerCase() === 'automotores';
+    },
     availableYears() {
       const currentYear = new Date().getFullYear();
       const years = [];
@@ -406,6 +418,7 @@ export default {
         `• marca: ${data.brand}\n` +
         `• modelo: ${data.model}\n` +
         `• año: ${data.year}\n\n` +
+        `${data.hasGNC ? '• GNC: Sí\n' : ''}` +
         `⏰ *disponibilidad:* ${data.availability}\n\n` +
         `¿Podrían contactarme para brindarme una cotización?`
       );
@@ -422,6 +435,7 @@ export default {
         email: '',
         phone: '',
         availability: '',
+        hasGNC: false,
       };
       this.errors = {
         brand: '',
